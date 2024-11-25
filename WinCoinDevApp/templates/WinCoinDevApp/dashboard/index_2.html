@@ -1,0 +1,220 @@
+{% extends "WinCoinDevApp/dashboard/base.html" %}
+{% load static %}
+
+{% block content %}
+    <section class="main_content dashboard_part">
+
+        <div class="container-fluid g-0">
+            <div class="row">
+                <div class="col-lg-12 p-0">
+                    <div class="header_iner d-flex justify-content-between align-items-center">
+                        <div class="sidebar_icon d-lg-none">
+                            <i class="ti-menu"></i>
+                        </div>
+                        <div class="serach_field-area">
+                            <div class="search_inner">
+                                <form action="#">
+                                    <div class="search_field">
+                                        <input type="text" placeholder="Search here...">
+                                    </div>
+                                    <button type="submit"> <img src="{% static 'dashboard/img/icon/icon_search.svg'%}" alt> </button>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="header_right d-flex justify-content-between align-items-center">
+                            <div class="header_notification_warp d-flex align-items-center">
+                                <li>
+                                    <a href="{% url 'transaction_history' %}"> <img src="{% static 'dashboard/img/icon/bell.svg'%}" alt> </a>
+                                </li>
+                                <li>
+                                    <a href="#"> <img src="{%  static 'dashboard/img/icon/msg.svg'%}" alt> </a>
+                                </li>
+                            </div>
+                            <div class="profile_info">
+                                <img src="{% if request.user.profile_picture %}{{ request.user.profile_picture.url }}{% else %}{% static 'dashboard/img/client_img.png' %}{% endif %}" alt="update profile">
+                                <div class="profile_info_iner">
+                                    <p>Welcome!</p>
+                                    <h5>{{request.user.username}}</h5>
+                                    <div class="profile_info_details">
+                                        <a href="{% url 'profile_page' %}">My Profile <i class="ti-user"></i></a>
+                                        <a href="{% url 'profile_page' %}">Settings <i class="ti-settings"></i></a>
+                                        <a href="{% url 'logout_user' %}">Log Out <i class="ti-shift-left"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="main_content_iner ">
+            <div class="container-fluid plr_30 body_white_bg pt_30">
+                <div class="row justify-content-center">
+                    <div class="col-lg-12">
+                        <div class="single_element">
+                            <div class="quick_activity">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="quick_activity_wrap">   
+                                            <div class="single_quick_activity">
+                                                <h4>Investment Plan</h4>
+                                                <h3>$ <span> {{package}} </span> </h3>
+                                                <p>Package Type</p>
+                                            </div>
+                                            <div class="single_quick_activity">
+                                                <h4>Earnings</h4>
+                                                <h3>$ <span >{{request.user.balance}}</span> </h3>
+                                                <p>Profit on balance</p>
+                                            </div>
+
+                                            <style>
+                                                .btn13 {
+                                                    display: inline-block;
+                                                    padding: 10px 20px;
+                                                    font-size: 16px;
+                                                    cursor: pointer;
+                                                    text-align: center;
+                                                    text-decoration: none;
+                                                    color: blue;
+                                                    background-color: lightblue;
+                                                    border: none;
+                                                    border-radius: 4px;
+                                                }
+                                            
+                                            
+                                            </style>
+                                            
+                                            <a href="{% url 'withdraw' %}" id="withdrawalBtn" class="btn13">Withdraw</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="tradingview-widget-container">
+                        <div class="tradingview-widget-container__widget"></div>
+                        <div class="tradingview-widget-copyright"><a href="https://www.tradingview.com/" rel="noopener nofollow" target="_blank"></a></div>
+                        <!-- TradingView Embed Script -->
+                        <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js" async></script>
+                        <script type="text/javascript">
+                        // Configuration object for the TradingView widget
+                        var config = {
+                            "symbols":[
+                                {
+                                    "proName": "FX_IDC:EURUSD",
+                                    "title": "EUR to USD"
+                                },
+                                {
+                                    "proName": "BITSTAMP:BTCUSD",
+                                    "title": "Bitcoin"
+                                },
+                                {
+                                    "proName": "BITSTAMP:ETHUSD",
+                                    "title": "Ethereum"
+                                },
+                                {
+                                    "description": "Binance",
+                                    "proName": "BINANCE:BTCUSDT"
+                                },
+                                {
+                                    "description": "",
+                                    "proName": "NASDAQ:TSLA"
+                                },
+                                {
+                                    "description": "",
+                                    "proName": "NASDAQ:AAPL"
+                                },
+                                {
+                                    "description": "",
+                                    "proName": "TVC:GOLD"
+                                },
+                                {
+                                    "description": "",
+                                    "proName": "COINBASE:SOLUSD"
+                                },
+                                {
+                                    "description": "",
+                                    "proName": "NASDAQ:META"
+                                },
+                                {
+                                    "description": "",
+                                    "proName": "NASDAQ:NFLX"
+                                }
+                            ],
+                            "showSymbolLogo": true,
+                            "isTransparent": false,
+                            "displayMode": "regular",
+                            "colorTheme": "dark",
+                            "locale": "en"
+                        };
+                        // Embedding the TradingView ticker tape widget with the provided configuration
+                        new TradingView.TickerTape(config);
+                        </script>
+                    </div>
+                
+                    <script>
+                        setInterval(function() {
+                            fetch('{% url 'update_balance' %}', {
+                                method: 'GET',
+                                headers: {
+                                    'Accept': 'application/json',
+                                    'Content-Type': 'application/json',
+                                    'X-CSRFToken': '{{ csrf_token }}'
+                                }
+                            })
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.status === 'success') {
+                                    console.log('User balances updated successfully');
+                                } else {
+                                    console.error('Failed to update user balances');
+                                }
+                            })
+                            .catch(error => console.error('Error:', error));
+                        }, 4000); // Update every 4 seconds
+                        </script>
+
+
+        <!-- TradingView Widget BEGIN -->
+        <div class="tradingview-widget-container">
+            <div class="tradingview-widget-container__widget"></div>
+            <div class="tradingview-widget-copyright"><a href="https://www.tradingview.com/"
+                    rel="noopener nofollow" target="_blank"><span class="blue-text">Track all markets on
+                        TradingView</span></a></div>
+            <script type="text/javascript"
+                src="https://s3.tradingview.com/external-embedding/embed-widget-screener.js" async>
+                    {
+                        "width": 1000,
+                            "height": 490,
+                                "defaultColumn": "overview",
+                                    "screener_type": "crypto_mkt",
+                                        "displayCurrency": "USD",
+                                            "colorTheme": "light",
+                                                "locale": "en",
+                                                    "isTransparent": false
+                    }
+                </script>
+        </div>
+        <!-- TradingView Widget END -->
+
+        <div class="footer_part">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12 col-sm-12">
+                        <div class="footer_iner text-center">
+                            <p>2024 © Influence - Designed by<a href="{% url 'dashboard' $}" > Dashboard</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+{% endblock content %}
+   
+
+
+ 

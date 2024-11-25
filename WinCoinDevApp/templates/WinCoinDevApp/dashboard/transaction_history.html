@@ -1,0 +1,284 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deposit Funds</title>
+    <link rel="stylesheet" href="{% static 'dashboard/css/bootstrap1.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'dashboard/vendors/themefy_icon/themify-icons.css' %}" />
+    <link rel="stylesheet" href="{% static 'dashboard/vendors/swiper_slider/css/swiper.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'dashboard/vendors/select2/css/select2.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'dashboard/vendors/niceselect/css/nice-select.css' %}" />
+    <link rel="stylesheet" href="{% static 'dashboard/vendors/owl_carousel/css/owl.carousel.css' %}" />
+    <link rel="stylesheet" href="{% static 'dashboard/vendors/gijgo/gijgo.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'dashboard/vendors/font_awesome/css/all.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'dashboard/vendors/tagsinput/tagsinput.css' %}" />
+    <link rel="stylesheet" href="{% static 'dashboard/vendors/datatable/css/jquery.dataTables.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'dashboard/vendors/datatable/css/responsive.dataTables.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'dashboard/vendors/datatable/css/buttons.dataTables.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'dashboard/vendors/text_editor/summernote-bs4.css' %}" />
+    <link rel="stylesheet" href="{% static 'dashboard/vendors/morris/morris.css' %}" />
+    <link rel="stylesheet" href="{% static 'dashboard/vendors/material_icon/material-icons.css' %}" />
+    <link rel="stylesheet" href="{% static 'dashboard/css/metisMenu.css' %}">
+    <link rel="stylesheet" href="{% static 'dashboard/css/style1.css' %}" />
+    <link rel="stylesheet" href="{% static 'dashboard/css/colors/default.css' %}" id="colorSkinCSS">
+    <link rel="stylesheet" href="{% static 'dashboard/css/general.css' %}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .main_content_iner {
+            padding: 30px;
+        }
+
+        .deposit_History {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .deposit_History h1 {
+            font-size: 28px;
+            color: #333;
+        }
+
+        .table-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        table th, table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        table th {
+            background-color: #f2f2f2;
+            color: #333;
+            font-weight: bold;
+        }
+
+        table tbody tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        table tbody tr:hover {
+            background-color: #f1f1f1;
+        }
+        
+        .btn-back {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 20px;
+            text-align: center;
+            display: block;
+        }
+
+        .btn-back:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body class="crm_body_bg">
+    <nav class="sidebar">
+        <div class="logo d-flex justify-content-between">
+            <div class="sidebar_close_icon d-lg-none">
+                <i class="ti-close"></i>
+            </div>
+        </div>
+        <ul id="sidebar_menu">
+            <li class="mm-active">
+                <a class="has-arrow" href="#" aria-expanded="false">
+                    <img src="{% static 'dashboard/img/menu-icon/1.svg'%}" alt>
+                    <span>Dashboard</span>
+                </a>
+                <ul>
+                    <li><a class="active" href="{% url 'dashboard' %}">Minimal</a></li>
+                </ul>
+            </li>
+            <li>
+                <a class="has-arrow" href="#" aria-expanded="false">
+                    <img src="{% static 'dashboard/img/menu-icon/2.svg'%}" alt>
+                    <span>Deposit</span>
+                </a>
+                <ul>
+                    <li><a href="{% url 'packages' %}">Deposit Funds</a></li>
+                    <li><a href="{% url 'transaction_history' %}">Transaction History</a></li>
+                </ul>
+            </li>
+            <li>
+                <a class="has-arrow" href="#" aria-expanded="false">
+                    <img src="{% static  'dashboard/img/menu-icon/4.svg'%}" alt>
+                    <span>Withdrawals</span>
+                </a>
+                <ul>
+                    <ul>
+                        <li><a href="{% url 'withdraw' %}">Withdraw Funds</a></li>
+                        <li><a href="{% url 'transaction_history' %}">Transaction History</a></li>
+                    </ul>
+                </ul>
+            </li>
+            <li>
+                <a class="has-arrow" href="#" aria-expanded="false">
+                    <img src="{% static 'dashboard/img/menu-icon/5.svg'%}" alt>
+                    <span>Earnings</span>
+                </a>
+                <ul>
+                    <li><a href="{% url 'earnings' %}">My Earnings</a></li>
+                </ul>
+            </li>
+            <li>
+                <a class="has-arrow" href="#" aria-expanded="false">
+                    <img src="{% static 'dashboard/img/menu-icon/6.svg'%}" alt>
+                    <span>Help</span>
+                </a>
+                <ul>
+                    <ul>
+                        <li><a href="Help.html">Help</a></li>
+                    </ul>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+
+    <section class="main_content dashboard_part">
+        <div class="container-fluid g-0">
+            <div class="row">
+                <div class="col-lg-12 p-0">
+                    <div class="header_iner d-flex justify-content-between align-items-center">
+                        <div class="sidebar_icon d-lg-none">
+                            <i class="ti-menu"></i>
+                        </div>
+                        <div class="serach_field-area">
+                            <div class="search_inner">
+                                <form action="#">
+                                    <div class="search_field">
+                                        <input type="text" placeholder="Search here...">
+                                    </div>
+                                    <button type="submit"> <img src="img/icon/icon_search.svg" alt> </button>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="header_right d-flex justify-content-between align-items-center">
+                            <div class="header_notification_warp d-flex align-items-center">
+                                <li>
+                                    <a href="#"> <img src="img/icon/msg.svg" alt> </a>
+                                </li>
+                            </div>
+                            <div class="profile_info">
+                                <img src="{% static 'dashboard/img/client_img.png'%}" alt="#">
+                                <div class="profile_info_iner">
+                                    <p>Welcome!</p>
+                                    <h5>{{request.user.username}}</h5>
+                                    <div class="profile_info_details">
+                                        <a href="{% url 'profile_page' %}">My Profile <i class="ti-user"></i></a>
+                                        <a href="{% url 'profile_page' %}">Settings <i class="ti-settings"></i></a>
+                                        <a href="">Log Out <i class="ti-shift-left"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="main_content_iner">
+            <div class="container-fluid plr_30 body_white_bg pt_30">
+                <div class="row justify-content-center">
+                    <div class="col-lg-12">
+                        <div class="deposit_History">
+                            <h1>Deposit History</h1>
+                        </div>
+                        <div class="table-container">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Amount</th>
+                                        <th>Type</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for transaction in transactions %}
+                                    <tr>
+                                        <td>{{ transaction.transaction_date }}</td>
+                                        <td>${{ transaction.amount }}</td>
+                                        <td>{{ transaction.transaction_type }}</td>
+                                        <td>{{ transaction.transaction_status }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                            <a href="{% url 'dashboard' %}" class="btn-back">Back to Dashboard</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer_part">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12 col-sm-12">
+                        <div class="footer_iner text-center">
+                            <p>2020 © Influence - Designed by <a href="#">Dashboard</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="{% static 'dashboard/js/jquery1-3.4.1.min.js' %}"></script>
+    <script src="{% static 'dashboard/js/popper1.min.js' %}"></script>
+    <script src="{% static 'dashboard/js/bootstrap1.min.js' %}"></script>
+    <script src="{% static 'dashboard/js/metisMenu.js' %}"></script>
+    <script src="{% static 'dashboard/vendors/count_up/jquery.waypoints.min.js' %}"></script>
+    <script src="{% static 'dashboard/vendors/chartlist/Chart.min.js' %}"></script>
+    <script src="{% static 'dashboard/vendors/count_up/jquery.counterup.min.js' %}"></script>
+    <script src="{% static 'dashboard/vendors/swiper_slider/js/swiper.min.js' %}"></script>
+    <script src="{% static 'dashboard/vendors/niceselect/js/jquery.nice-select.min.js' %}"></script>
+    <script src="{% static 'dashboard/vendors/owl_carousel/js/owl.carousel.min.js' %}"></script>
+    <script src="{% static 'dashboard/vendors/gijgo/gijgo.min.js' %}"></script>
+    <script src="{% static 'dashboard/vendors/datatable/js/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'dashboard/vendors/datatable/js/dataTables.responsive.min.js' %}"></script>
+    <script src="{% static 'dashboard/vendors/datatable/js/dataTables.buttons.min.js' %}"></script>
+    <script src="{% static 'dashboard/vendors/datatable/js/buttons.flash.min.js' %}"></script>
+    <script src="{% static 'dashboard/vendors/datatable/js/jszip.min.js' %}"></script>
+    <script src="{% static 'dashboard/vendors/datatable/js/pdfmake.min.js' %}"></script>
+    <script src="{% static 'dashboard/vendors/datatable/js/vfs_fonts.js' %}"></script>
+    <script src="{% static 'dashboard/vendors/datatable/js/buttons.html5.min.js' %}"></script>
+    <script src="{% static 'dashboard/vendors/datatable/js/buttons.print.min.js' %}"></script>
+    <script src="{% static 'dashboard/js/chart.min.js' %}"></script>
+    <script src="{% static 'dashboard/vendors/progressbar/jquery.barfiller.js' %}"></script>
+    <script src="{% static 'dashboard/vendors/tagsinput/tagsinput.js' %}"></script>
+    <script src="{% static 'dashboard/vendors/text_editor/summernote-bs4.js' %}"></script>
+    <script src="{% static 'dashboard/vendors/apex_chart/apexcharts.js' %}"></script>
+    <script src="{% static 'dashboard/js/custom.js' %}"></script>
+    <script src="{% static 'dashboard/js/active_chart2.js' %}"></script>
+    <script src="{% static 'dashboard/vendors/apex_chart/radial_active_min.js' %}"></script>
+    <script src="{% static 'dashboard/vendors/apex_chart/stackbar2.js' %}"></script>
+    <script src="{% static 'dashboard/vendors/apex_chart/area_chart.js' %}"></script>
+    <script src="{% static 'dashboard/vendors/apex_chart/bar_active_2.js' %}"></script>
+    <script src="{% static 'dashboard/vendors/chartjs/chartjs_active2.js' %}"></script>
+</body>
+</html>

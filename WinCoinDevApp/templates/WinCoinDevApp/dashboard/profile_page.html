@@ -1,0 +1,179 @@
+<!-- profile_edit.html -->
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Profile</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f4f8;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        .profile-container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .profile-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .profile-header h1 {
+            margin: 0;
+            color: #007bff;
+        }
+        .profile-picture {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        .profile-picture img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #007bff;
+        }
+        .profile-picture input {
+            display: none;
+        }
+        .edit-picture {
+            display: block;
+            margin-top: 10px;
+            color: #007bff;
+            cursor: pointer;
+        }
+        .profile-form label {
+            display: block;
+            margin-bottom: 5px;
+            color: #007bff;
+        }
+        .profile-form input, .profile-form select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        .save-button {
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            display: block;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+<div class="profile-container">
+    <div class="profile-header">
+        <h1>Edit Profile</h1>
+    </div>
+    <form class="profile-form" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="profile-picture">
+            <img src="{% if request.user.profile_picture %}{{ request.user.profile_picture.url }}{% else %}{% static 'dashboard/img/client_img.png' %}{% endif %}" alt="Profile Picture" id="profileImage">
+            <input type="file" id="profilePictureInput" accept="image/*" name="profile_picture">
+            <label for="profilePictureInput" class="edit-picture">Change Picture</label>
+        </div>
+        {% if form.errors %}
+            <p style="color:red; font-size:15px;">Invalid Details</p>
+            <span style="color:red; font-size:15px;">{{ form.errors }}</span>
+        {% endif %}
+
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username" value="{{ form.username.value|default_if_none:request.user.username }}">
+
+        <label for="firstName">First Name</label>
+        <input type="text" id="firstName" name="first_name" value="{{ form.first_name.value|default_if_none:request.user.first_name }}">
+       
+        <label for="lastName">Last Name</label>
+        <input type="text" id="lastName" name="last_name" value="{{ form.last_name.value|default_if_none:request.user.last_name }}">
+
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" value="{{ form.email.value|default_if_none:request.user.email }}">
+
+        <label for="walletAddress">Wallet Address</label>
+        <input type="text" id="walletAddress" name="wallet_address" value="{{ form.wallet_address.value|default_if_none:request.user.wallet_address }}">
+
+        <label for="country">Country</label>
+        <select id="country" name="country">
+            <!-- Options will be populated by JavaScript -->
+        </select>
+
+        <button type="submit" class="save-button">Save Changes</button>
+        <style>
+            .button-container {
+                text-align: center;
+                margin-top: 20px;
+            }
+            .button {
+                display: inline-block;
+                padding: 10px 20px;
+                font-size: 16px;
+                color: #ffffff;
+                background-color: #007bff;
+                border: none;
+                border-radius: 5px;
+                text-decoration: none;
+                transition: background-color 0.3s ease;
+            }
+            .button:hover {
+                background-color: #0056b3;
+            }
+        </style>
+        <div class="button-container">
+            <a href="{% url 'dashboard' %}" class="button">Back to Home</a>
+        </div>
+    </form>
+</div>
+
+<script>
+    document.getElementById('profilePictureInput').addEventListener('change', function(event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById('profileImage').src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const countrySelect = document.getElementById('country');
+        const countriesAPI = 'https://restcountries.com/v3.1/all';
+
+        fetch(countriesAPI)
+            .then(response => response.json())
+            .then(data => {
+                data.sort((a, b) => a.name.common.localeCompare(b.name.common));
+                data.forEach(country => {
+                    const option = document.createElement('option');
+                    option.value = country.cca2;
+                    option.textContent = country.name.common;
+                    if (country.cca2 === '{{ request.user.country }}') {
+                        option.selected = true;
+                    }
+                    countrySelect.appendChild(option);
+                });
+            })
+            .catch(error => console.error('Error fetching country data:', error));
+    });
+</script>
+
+</body>
+</html>

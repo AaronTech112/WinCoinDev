@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Investment Packages</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            font-size: 36px;
+            color: #333;
+        }
+
+        .cards {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
+        .card {
+            background-color: #007bff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            margin: 20px;
+            flex-basis: calc(25% - 40px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+            transition: transform 0.2s;
+            color: white;
+            text-decoration: none; /* Ensure the link looks like a card */
+        }
+
+        .card:hover {
+            transform: scale(1.05);
+        }
+
+        .card h2 {
+            font-size: 22px;
+            margin: 10px 0;
+        }
+
+        .card-details {
+            margin: 10px 0;
+        }
+
+        .card-details p {
+            margin: 5px 0;
+        }
+
+        .card-details p span {
+            font-weight: bold;
+        }
+
+        .btn-back {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #0056b3;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+
+        .btn-back:hover {
+            background-color: #003d80;
+        }
+
+        @media (max-width: 768px) {
+            .card {
+                flex-basis: calc(50% - 40px);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .card {
+                flex-basis: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Investment Packages</h1>
+        </div>
+        <div class="cards">
+            {% for package in packages %}
+            <a href="{% url 'deposit' package %}" class="card">
+                <h2>{{ package.name }}</h2>
+                <div class="card-details">
+                    <p>Duration: <span>{{ package.duration_in_days }} days</span></p>
+                    <p>Amount: <span>${{ package.amount }}</span></p> <!-- Corrected the amount field -->
+                    <p>Return: <span>${{ package.investment_return }}</span></p>
+                    <p>Increment Rate per Day: <span>${{ package.increament_rate_per_day }}</span></p>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+        <a href="{% url 'dashboard' %}" class="btn-back">Back to Home</a>
+    </div>
+</body>
+</html>

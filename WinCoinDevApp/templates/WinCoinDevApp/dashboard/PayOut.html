@@ -1,0 +1,305 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Gateway</title>
+    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #1e40af;
+            --background-color: #f8fafc;
+            --text-color: #1e293b;
+            --border-radius: 12px;
+            --box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .login {
+            width: 100%;
+            max-width: 480px;
+        }
+
+        .login__content {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 2.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login__content::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+        }
+
+        .login__forms {
+            width: 100%;
+        }
+
+        .login__title {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            text-align: center;
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .login__title::before {
+            content: '💰';
+            font-size: 2rem;
+        }
+
+        .Address__box {
+            background: #f1f5f9;
+            padding: 1.25rem;
+            border-radius: var(--border-radius);
+            font-family: monospace;
+            font-size: 0.9rem;
+            color: var(--text-color);
+            word-break: break-all;
+            margin-bottom: 1.5rem;
+            border: 2px solid #e2e8f0;
+            text-align: center;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .Address__box:hover {
+            border-color: var(--primary-color);
+            background: #f8fafc;
+        }
+
+        .login__button {
+            display: block;
+            width: 100%;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            background: var(--primary-color);
+            color: white;
+            text-align: center;
+            border-radius: var(--border-radius);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .login__button:hover {
+            background: var(--secondary-color);
+            transform: translateY(-1px);
+            box-shadow: var(--box-shadow);
+        }
+
+        .login__button i {
+            font-size: 1.25rem;
+        }
+
+        .alert {
+            background: #10b981;
+            color: white;
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            text-align: center;
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(-10px);
+        }
+
+        .alert.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .login__account {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 2rem;
+            color: var(--text-color);
+            font-size: 0.95rem;
+        }
+
+        .login__signin--signup {
+            color: var(--primary-color);
+            cursor: pointer;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        .login__signin--signup:hover {
+            color: var(--secondary-color);
+            text-decoration: underline;
+        }
+
+        .QR__box {
+            display: flex;
+            justify-content: center;
+            margin: 2rem 0;
+        }
+
+        .QR__box img {
+            max-width: 200px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            transition: transform 0.3s ease;
+        }
+
+        .QR__box img:hover {
+            transform: scale(1.05);
+        }
+
+        .none {
+            display: none;
+        }
+
+        .payment-description {
+          text-align: center;
+          margin-bottom: 2rem;
+          padding: 1.5rem;
+          background: #f8fafc;
+          border-radius: var(--border-radius);
+          border-left: 4px solid var(--primary-color);
+      }
+  
+      .payment-description h2 {
+          color: var(--text-color);
+          font-size: 1.2rem;
+          margin-bottom: 0.5rem;
+          font-weight: 600;
+      }
+  
+      .payment-description p {
+          color: #64748b;
+          font-size: 0.95rem;
+          line-height: 1.5;
+      }
+  
+      .payment-info {
+          display: flex;
+          justify-content: center;
+          gap: 1rem;
+          flex-wrap: wrap;
+          margin-top: 1rem;
+      }
+  
+      .payment-info span {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          padding: 0.5rem 1rem;
+          background: white;
+          border-radius: 20px;
+          font-size: 0.9rem;
+          color: var(--text-color);
+          box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+      }
+  
+      .payment-info i {
+          color: var(--primary-color);
+      }
+
+        @media (max-width: 768px) {
+            .login__content {
+                padding: 2rem;
+            }
+
+            .login__title {
+                font-size: 2rem;
+            }
+
+            .Address__box {
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="login">
+        <div class="login__content">
+          <div class="payment-description">
+            <h2>Payment Instructions</h2>
+            <p>Please send your payment to our secure USDT wallet address using the ERC20 network. Ensure you copy the address correctly or scan the QR code for a seamless transaction.</p>
+            <div class="payment-info">
+                <span><i class='bx bx-chip'></i>Network: ERC20</span>
+                <span><i class='bx bx-coin'></i>Currency: USDT</span>
+            </div>
+            <div class="login__forms">
+                <form action="" class="login__register" id="login-in">
+                    <h1 class="login__title">${{amount}}</h1>
+                    
+                    <div class="Address__box">
+                        0xc155E98335838dD92f3953098e9f5663EAD6017E
+                    </div>
+                    
+                    <a href="#" class="login__button" id="copyButton">
+                        <i class='bx bx-copy'></i> Copy Address
+                    </a>
+                    <a href="{% url 'upload_proof' package %}" class="login__button">
+                        <i class='bx bx-check-circle'></i> I've Paid
+                    </a>
+                    
+                    <div id="alertMessage" class="alert">Address copied to clipboard!</div>
+
+                    <div class="login__account">
+                        <span class="login__account--account">Want to Scan To Pay?</span>
+                        <span class="login__signin--signup" id="sign-up">Click here</span>
+                    </div>
+                </form>
+                
+                <form action="" class="login__create none" id="login-up">
+                    <h1 class="login__title">${{amount}}</h1>
+                    <div class="QR__box">
+                        <img src="{% static 'dashboard/img/pay_qr.jpg'%}" alt="QR Code">
+                    </div>
+                    
+                    <a href="{% url 'upload_proof' package %}" class="login__button">
+                        <i class='bx bx-check-circle'></i> Payment Complete
+                    </a>
+                    
+                    <div class="login__account">
+                        <span class="login__account--account">Prefer to pay with address?</span>
+                        <span class="login__signup login__signin--signup" id="sign-in">Click here</span>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <script src="{% static 'dashboard/js/PayOut.js'%}"></script>
+</body>
+</html>
