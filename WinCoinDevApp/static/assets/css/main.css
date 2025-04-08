@@ -1150,12 +1150,14 @@ textarea:focus,
     position: fixed;
     bottom: 5%;
     right: 5%;
+    align-items: center;
     display: none;
     z-index: 99999;
     cursor: pointer;
     text-align: center;
     border-radius: 50%;
     background-color: #cca354;
+    margin-top: auto;
     line-height: 77px;
     box-shadow: 0 5px 15px 0 rgba(0, 0, 0, 0.25);
 }
@@ -1166,11 +1168,7 @@ textarea:focus,
     display: inline-block;
 }
 
-.scroll-to-top .scroll-icon i {
-    -webkit-transform: rotate(-45deg);
-    -ms-transform: rotate(-45deg);
-    transform: rotate(-45deg);
-}
+
 
 a[class*='lightcase-icon-'].lightcase-icon-close {
     top: 100px;

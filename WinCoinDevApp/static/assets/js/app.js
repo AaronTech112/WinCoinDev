@@ -40,13 +40,6 @@ $(window).on("scroll", function() {
 	}
 });
 
-// Animate the scroll to top
-$(".scroll-to-top").on("click", function(event) {
-	event.preventDefault();
-	$("html, body").animate({scrollTop: 0}, 300);
-});
-
-
 //preloader js code
 $(".preloader").delay(300).animate({
 	"opacity" : "0"
